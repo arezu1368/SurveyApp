@@ -30,8 +30,23 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CryptSharp, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\CryptSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -40,11 +55,97 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BusinessLayer\BaseDTO.cs" />
+    <Compile Include="BusinessLayer\BaseManager.cs" />
+    <Compile Include="BusinessLayer\DomainEntity.cs" />
+    <Compile Include="BusinessLayer\Enums\Enums.cs" />
+    <Compile Include="BusinessLayer\Exceptions\DbError.cs" />
+    <Compile Include="BusinessLayer\Exceptions\DbExceptionHandler.cs" />
+    <Compile Include="BusinessLayer\Exceptions\ErrorParsing\DbDuplicateParser.cs" />
+    <Compile Include="BusinessLayer\Exceptions\ErrorParsing\ErrorParser.cs" />
+    <Compile Include="BusinessLayer\Exceptions\ErrorParsing\MinItemCountErrorParser.cs" />
+    <Compile Include="BusinessLayer\Exceptions\ErrorParsing\MinLenErrorParser.cs" />
+    <Compile Include="BusinessLayer\Exceptions\ErrorParsing\PersianTextErrorParser.cs" />
+    <Compile Include="BusinessLayer\Exceptions\ErrorParsing\RequierdFieldParser.cs" />
+    <Compile Include="BusinessLayer\Exceptions\ServerError.cs" />
+    <Compile Include="BusinessLayer\Exceptions\UnHandledException.cs" />
+    <Compile Include="BusinessLayer\Exceptions\ValidationError.cs" />
+    <Compile Include="BusinessLayer\IDomainEntity.cs" />
+    <Compile Include="BusinessLayer\Jwt\JwtManager.cs" />
+    <Compile Include="BusinessLayer\User\User.cs" />
+    <Compile Include="BusinessLayer\User\UserManager.cs" />
+    <Compile Include="BusinessLayer\Validators\DecimalMinValue.cs" />
+    <Compile Include="BusinessLayer\Validators\FixLen.cs" />
+    <Compile Include="BusinessLayer\Validators\IValidatorAttribute.cs" />
+    <Compile Include="BusinessLayer\Validators\MinItemCount.cs" />
+    <Compile Include="BusinessLayer\Validators\MinLen.cs" />
+    <Compile Include="BusinessLayer\Validators\MinValue.cs" />
+    <Compile Include="BusinessLayer\Validators\NumberText.cs" />
+    <Compile Include="BusinessLayer\Validators\ParamName.cs" />
+    <Compile Include="BusinessLayer\Validators\PersianText.cs" />
+    <Compile Include="BusinessLayer\Validators\RequieredField.cs" />
+    <Compile Include="BusinessLayer\Validators\SpecialValidator.cs" />
+    <Compile Include="BusinessLayer\Validators\Transferable.cs" />
+    <Compile Include="DataAccessLayer\CommonModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CommonModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataAccessLayer\CommonModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CommonModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataAccessLayer\CommonModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CommonModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="DataAccessLayer\IEntity.cs" />
+    <Compile Include="DataAccessLayer\Partials.cs" />
+    <Compile Include="DataAccessLayer\TCheckAbleItem.cs">
+      <DependentUpon>CommonModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataAccessLayer\TQuestionType.cs">
+      <DependentUpon>CommonModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataAccessLayer\TSurvey.cs">
+      <DependentUpon>CommonModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataAccessLayer\TSurveyQuestion.cs">
+      <DependentUpon>CommonModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataAccessLayer\TUser.cs">
+      <DependentUpon>CommonModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="BusinessLayer\" />
-    <Folder Include="DataAccessLayer\" />
+    <None Include="App.Config" />
+    <EntityDeploy Include="DataAccessLayer\CommonModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>CommonModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="DataAccessLayer\CommonModel.edmx.diagram">
+      <DependentUpon>CommonModel.edmx</DependentUpon>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="DataAccessLayer\CommonModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>CommonModel.edmx</DependentUpon>
+      <LastGenOutput>CommonModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="DataAccessLayer\CommonModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>CommonModel.edmx</DependentUpon>
+      <LastGenOutput>CommonModel.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
