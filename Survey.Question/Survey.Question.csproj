@@ -30,8 +30,19 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -40,11 +51,72 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataAccessLayer\Partials.cs" />
+    <Compile Include="DataAccessLayer\SurveyQuestionModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SurveyQuestionModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataAccessLayer\SurveyQuestionModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SurveyQuestionModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataAccessLayer\SurveyQuestionModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SurveyQuestionModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="DataAccessLayer\TCheckAbleItem.cs">
+      <DependentUpon>SurveyQuestionModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataAccessLayer\TQuestionType.cs">
+      <DependentUpon>SurveyQuestionModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataAccessLayer\TSurvey.cs">
+      <DependentUpon>SurveyQuestionModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataAccessLayer\TSurveyQuestion.cs">
+      <DependentUpon>SurveyQuestionModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="BusinessLayer\" />
-    <Folder Include="DataAccessLayer\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EntityDeploy Include="DataAccessLayer\SurveyQuestionModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>SurveyQuestionModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config" />
+    <None Include="DataAccessLayer\SurveyQuestionModel.edmx.diagram">
+      <DependentUpon>SurveyQuestionModel.edmx</DependentUpon>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DataAccessLayer\SurveyQuestionModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>SurveyQuestionModel.Context.cs</LastGenOutput>
+      <DependentUpon>SurveyQuestionModel.edmx</DependentUpon>
+    </Content>
+    <Content Include="DataAccessLayer\SurveyQuestionModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>SurveyQuestionModel.edmx</DependentUpon>
+      <LastGenOutput>SurveyQuestionModel.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Survey.Common\Survey.Common.csproj">
+      <Project>{1CCF8873-06F3-4967-A0FE-624EE16E1960}</Project>
+      <Name>Survey.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

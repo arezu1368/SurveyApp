@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,13 +26,13 @@ namespace Survey.Common.BusinessLayer.Exceptions
             return errors.Where(a => a is DbError).ToList();
         }
 
-        protected override string makeErrorMessage(ServerError a)
+        protected override string makeErrorMessage(ServerError se)
         {
-            DbError aa = (DbError)a;
-            var objDesc = aa.Obj.GetType().GetCustomAttributes(typeof(DisplayAttribute), true).FirstOrDefault();
+            DbError de = (DbError)se;
+            var objDesc = de.Obj.GetType().GetCustomAttributes(typeof(DisplayNameAttribute), true).FirstOrDefault();
             if (objDesc != null)
             {
-                String objName = ((DisplayAttribute)objDesc).Name;
+                String objName = ((DisplayNameAttribute)objDesc).DisplayName;
                 return "اطلاعات " + objName + " تکراری است.";
             }
             return "";

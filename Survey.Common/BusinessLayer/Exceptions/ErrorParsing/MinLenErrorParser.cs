@@ -2,6 +2,7 @@
 using Survey.Common.BusinessLayer.Validators;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
@@ -28,14 +29,14 @@ namespace Survey.Common.BusinessLayer.Exceptions
             return errors.Where(a => a is ValidationError && ((ValidationError)a).Validator is MinLen).ToList();
         }
 
-        protected override string makeErrorMessage(ServerError a)
+        protected override string makeErrorMessage(ServerError se)
         {
-            ValidationError aa = (ValidationError)a;
-            var propDesc = aa.Property.GetCustomAttributes(typeof(DisplayAttribute), true).FirstOrDefault();
+            ValidationError ve = (ValidationError)se;
+            var propDesc = ve.Property.GetCustomAttributes(typeof(DisplayNameAttribute), true).FirstOrDefault();
             if (propDesc != null)
             {
-                String propName = ((DisplayAttribute)propDesc).Name;
-                String minlen = ((MinLen)aa.Validator).Len.ToString();
+                String propName = ((DisplayNameAttribute)propDesc).DisplayName;
+                String minlen = ((MinLen)ve.Validator).Len.ToString();
                 return "فیلد '" + propName + "' می بایست دارای حداقل "+minlen+" کاراکتر باشد.";
             }
             return "";

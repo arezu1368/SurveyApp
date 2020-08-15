@@ -6,10 +6,10 @@
     <edmx:Diagrams>
       <Diagram DiagramId="54b40b23bb754897b65fb16bff515c27" Name="Diagram1">
         <EntityTypeShape EntityType="SurveyDBModel.TUser" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="SurveyDBModel.TCheckAbleItem" Width="1.5" PointX="7.5" PointY="5.625" />
+        <EntityTypeShape EntityType="SurveyDBModel.TCheckAbleItem" Width="1.5" PointX="6.125" PointY="3.625" />
         <EntityTypeShape EntityType="SurveyDBModel.TQuestionType" Width="1.5" PointX="3.375" PointY="0.75" />
-        <EntityTypeShape EntityType="SurveyDBModel.TSurveyQuestion" Width="1.5" PointX="5.25" PointY="5.375" />
-        <EntityTypeShape EntityType="SurveyDBModel.TSurvey" Width="1.5" PointX="3" PointY="5.375" />
+        <EntityTypeShape EntityType="SurveyDBModel.TSurveyQuestion" Width="1.5" PointX="4.25" PointY="3.625" />
+        <EntityTypeShape EntityType="SurveyDBModel.TSurvey" Width="1.5" PointX="2.125" PointY="3.625" />
         <AssociationConnector Association="SurveyDBModel.FK_TCheckedItems_TSurveyQuestions" />
         <AssociationConnector Association="SurveyDBModel.FK_TSurveyQuestions_TSurveys" />
         <AssociationConnector Association="SurveyDBModel.FK_TSurveys_TUsers" />
