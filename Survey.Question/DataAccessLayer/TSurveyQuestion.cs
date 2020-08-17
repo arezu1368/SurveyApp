@@ -14,12 +14,6 @@ namespace Survey.Question.DataAccessLayer
     
     public partial class TSurveyQuestion
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public TSurveyQuestion()
-        {
-            this.TCheckAbleItems = new HashSet<TCheckAbleItem>();
-        }
-    
         public int Id { get; set; }
         public string Title { get; set; }
         public int QuestionTypeId { get; set; }
@@ -28,8 +22,7 @@ namespace Survey.Question.DataAccessLayer
         public int SurveyId { get; set; }
         public bool IsActive { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TCheckAbleItem> TCheckAbleItems { get; set; }
+        public virtual TQuestionType TQuestionType { get; set; }
         public virtual TSurvey TSurvey { get; set; }
     }
 }

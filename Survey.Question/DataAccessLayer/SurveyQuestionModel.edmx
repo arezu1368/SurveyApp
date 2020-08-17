@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="SurveyDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="SurveyDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="TCheckAbleItems">
           <Key>
             <PropertyRef Name="Id" />
@@ -45,11 +45,23 @@
           <Property Name="LastChangeMoment" Type="datetime" Nullable="false" />
           <Property Name="CoordinatorId" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="TUsers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="FullName" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="HashedPassword" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="RegisterMoment" Type="datetime" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
         <Association Name="FK_TCheckedItems_TSurveyQuestions">
-          <End Role="TSurveyQuestions" Type="Self.TSurveyQuestions" Multiplicity="1" />
+          <End Role="TQuestionTypes" Type="Self.TQuestionTypes" Multiplicity="1" />
           <End Role="TCheckAbleItems" Type="Self.TCheckAbleItems" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="TSurveyQuestions">
+            <Principal Role="TQuestionTypes">
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="TCheckAbleItems">
@@ -58,6 +70,18 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_TSurveyQuestions_TSurveys">
+          <End Role="TQuestionTypes" Type="Self.TQuestionTypes" Multiplicity="1" />
+          <End Role="TSurveyQuestions" Type="Self.TSurveyQuestions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TQuestionTypes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TSurveyQuestions">
+              <PropertyRef Name="QuestionTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TSurveyQuestions_TSurveys1">
           <End Role="TSurveys" Type="Self.TSurveys" Multiplicity="1" />
           <End Role="TSurveyQuestions" Type="Self.TSurveyQuestions" Multiplicity="*" />
           <ReferentialConstraint>
@@ -69,107 +93,176 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_TSurveys_TUsers">
+          <End Role="TUsers" Type="Self.TUsers" Multiplicity="1" />
+          <End Role="TSurveys" Type="Self.TSurveys" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TSurveys">
+              <PropertyRef Name="CoordinatorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="SurveyDBModelStoreContainer">
           <EntitySet Name="TCheckAbleItems" EntityType="Self.TCheckAbleItems" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TQuestionTypes" EntityType="Self.TQuestionTypes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TSurveyQuestions" EntityType="Self.TSurveyQuestions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TSurveys" EntityType="Self.TSurveys" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TUsers" EntityType="Self.TUsers" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_TCheckedItems_TSurveyQuestions" Association="Self.FK_TCheckedItems_TSurveyQuestions">
-            <End Role="TSurveyQuestions" EntitySet="TSurveyQuestions" />
+            <End Role="TQuestionTypes" EntitySet="TQuestionTypes" />
             <End Role="TCheckAbleItems" EntitySet="TCheckAbleItems" />
           </AssociationSet>
           <AssociationSet Name="FK_TSurveyQuestions_TSurveys" Association="Self.FK_TSurveyQuestions_TSurveys">
+            <End Role="TQuestionTypes" EntitySet="TQuestionTypes" />
+            <End Role="TSurveyQuestions" EntitySet="TSurveyQuestions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TSurveyQuestions_TSurveys1" Association="Self.FK_TSurveyQuestions_TSurveys1">
             <End Role="TSurveys" EntitySet="TSurveys" />
             <End Role="TSurveyQuestions" EntitySet="TSurveyQuestions" />
           </AssociationSet>
+          <AssociationSet Name="FK_TSurveys_TUsers" Association="Self.FK_TSurveys_TUsers">
+            <End Role="TUsers" EntitySet="TUsers" />
+            <End Role="TSurveys" EntitySet="TSurveys" />
+          </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="SurveyDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="SurveyQuestionEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="TCheckAbleItems" EntityType="SurveyDBModel.TCheckAbleItem" />
+          <EntitySet Name="TQuestionTypes" EntityType="SurveyDBModel.TQuestionType" />
+          <EntitySet Name="TSurveyQuestions" EntityType="SurveyDBModel.TSurveyQuestion" />
+          <EntitySet Name="TSurveys" EntityType="SurveyDBModel.TSurvey" />
+          <EntitySet Name="TUsers" EntityType="SurveyDBModel.TUser" />
+          <AssociationSet Name="FK_TCheckedItems_TSurveyQuestions" Association="SurveyDBModel.FK_TCheckedItems_TSurveyQuestions">
+            <End Role="TQuestionType" EntitySet="TQuestionTypes" />
+            <End Role="TCheckAbleItem" EntitySet="TCheckAbleItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TSurveyQuestions_TSurveys" Association="SurveyDBModel.FK_TSurveyQuestions_TSurveys">
+            <End Role="TQuestionType" EntitySet="TQuestionTypes" />
+            <End Role="TSurveyQuestion" EntitySet="TSurveyQuestions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TSurveyQuestions_TSurveys1" Association="SurveyDBModel.FK_TSurveyQuestions_TSurveys1">
+            <End Role="TSurvey" EntitySet="TSurveys" />
+            <End Role="TSurveyQuestion" EntitySet="TSurveyQuestions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TSurveys_TUsers" Association="SurveyDBModel.FK_TSurveys_TUsers">
+            <End Role="TUser" EntitySet="TUsers" />
+            <End Role="TSurvey" EntitySet="TSurveys" />
+          </AssociationSet>
+        </EntityContainer>
         <EntityType Name="TCheckAbleItem">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="IsVertical" Type="Boolean" />
           <Property Name="DisplayOrder" Type="Byte" Nullable="false" />
           <Property Name="SurveyQuestionId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="TSurveyQuestion" Relationship="Self.FK_TCheckedItems_TSurveyQuestions" FromRole="TCheckAbleItems" ToRole="TSurveyQuestions" />
+          <NavigationProperty Name="TQuestionType" Relationship="SurveyDBModel.FK_TCheckedItems_TSurveyQuestions" FromRole="TCheckAbleItem" ToRole="TQuestionType" />
         </EntityType>
         <EntityType Name="TQuestionType">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Title" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TCheckAbleItems" Relationship="SurveyDBModel.FK_TCheckedItems_TSurveyQuestions" FromRole="TQuestionType" ToRole="TCheckAbleItem" />
+          <NavigationProperty Name="TSurveyQuestions" Relationship="SurveyDBModel.FK_TSurveyQuestions_TSurveys" FromRole="TQuestionType" ToRole="TSurveyQuestion" />
         </EntityType>
         <EntityType Name="TSurveyQuestion">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="QuestionTypeId" Type="Int32" Nullable="false" />
           <Property Name="RegisterMoment" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="DisplayOrder" Type="Int32" Nullable="false" />
           <Property Name="SurveyId" Type="Int32" Nullable="false" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="TCheckAbleItems" Relationship="Self.FK_TCheckedItems_TSurveyQuestions" FromRole="TSurveyQuestions" ToRole="TCheckAbleItems" />
-          <NavigationProperty Name="TSurvey" Relationship="Self.FK_TSurveyQuestions_TSurveys" FromRole="TSurveyQuestions" ToRole="TSurveys" />
+          <NavigationProperty Name="TQuestionType" Relationship="SurveyDBModel.FK_TSurveyQuestions_TSurveys" FromRole="TSurveyQuestion" ToRole="TQuestionType" />
+          <NavigationProperty Name="TSurvey" Relationship="SurveyDBModel.FK_TSurveyQuestions_TSurveys1" FromRole="TSurveyQuestion" ToRole="TSurvey" />
         </EntityType>
         <EntityType Name="TSurvey">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <Property Name="RegisterMoment" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="LastChangeMoment" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="CoordinatorId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="TSurveyQuestions" Relationship="Self.FK_TSurveyQuestions_TSurveys" FromRole="TSurveys" ToRole="TSurveyQuestions" />
+          <NavigationProperty Name="TSurveyQuestions" Relationship="SurveyDBModel.FK_TSurveyQuestions_TSurveys1" FromRole="TSurvey" ToRole="TSurveyQuestion" />
+          <NavigationProperty Name="TUser" Relationship="SurveyDBModel.FK_TSurveys_TUsers" FromRole="TSurvey" ToRole="TUser" />
+        </EntityType>
+        <EntityType Name="TUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="FullName" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="HashedPassword" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="RegisterMoment" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="TSurveys" Relationship="SurveyDBModel.FK_TSurveys_TUsers" FromRole="TUser" ToRole="TSurvey" />
         </EntityType>
         <Association Name="FK_TCheckedItems_TSurveyQuestions">
-          <End Role="TSurveyQuestions" Type="Self.TSurveyQuestion" Multiplicity="1" />
-          <End Role="TCheckAbleItems" Type="Self.TCheckAbleItem" Multiplicity="*" />
+          <End Type="SurveyDBModel.TQuestionType" Role="TQuestionType" Multiplicity="1" />
+          <End Type="SurveyDBModel.TCheckAbleItem" Role="TCheckAbleItem" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="TSurveyQuestions">
+            <Principal Role="TQuestionType">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="TCheckAbleItems">
+            <Dependent Role="TCheckAbleItem">
               <PropertyRef Name="SurveyQuestionId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_TSurveyQuestions_TSurveys">
-          <End Role="TSurveys" Type="Self.TSurvey" Multiplicity="1" />
-          <End Role="TSurveyQuestions" Type="Self.TSurveyQuestion" Multiplicity="*" />
+          <End Type="SurveyDBModel.TQuestionType" Role="TQuestionType" Multiplicity="1" />
+          <End Type="SurveyDBModel.TSurveyQuestion" Role="TSurveyQuestion" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="TSurveys">
+            <Principal Role="TQuestionType">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="TSurveyQuestions">
+            <Dependent Role="TSurveyQuestion">
+              <PropertyRef Name="QuestionTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TSurveyQuestions_TSurveys1">
+          <End Type="SurveyDBModel.TSurvey" Role="TSurvey" Multiplicity="1" />
+          <End Type="SurveyDBModel.TSurveyQuestion" Role="TSurveyQuestion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TSurvey">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TSurveyQuestion">
               <PropertyRef Name="SurveyId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="SurveyQuestionEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="TCheckAbleItems" EntityType="Self.TCheckAbleItem" />
-          <EntitySet Name="TQuestionTypes" EntityType="Self.TQuestionType" />
-          <EntitySet Name="TSurveyQuestions" EntityType="Self.TSurveyQuestion" />
-          <EntitySet Name="TSurveys" EntityType="Self.TSurvey" />
-          <AssociationSet Name="FK_TCheckedItems_TSurveyQuestions" Association="Self.FK_TCheckedItems_TSurveyQuestions">
-            <End Role="TSurveyQuestions" EntitySet="TSurveyQuestions" />
-            <End Role="TCheckAbleItems" EntitySet="TCheckAbleItems" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TSurveyQuestions_TSurveys" Association="Self.FK_TSurveyQuestions_TSurveys">
-            <End Role="TSurveys" EntitySet="TSurveys" />
-            <End Role="TSurveyQuestions" EntitySet="TSurveyQuestions" />
-          </AssociationSet>
-        </EntityContainer>
+        <Association Name="FK_TSurveys_TUsers">
+          <End Type="SurveyDBModel.TUser" Role="TUser" Multiplicity="1" />
+          <End Type="SurveyDBModel.TSurvey" Role="TSurvey" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TSurvey">
+              <PropertyRef Name="CoordinatorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -179,44 +272,57 @@
           <EntitySetMapping Name="TCheckAbleItems">
             <EntityTypeMapping TypeName="SurveyDBModel.TCheckAbleItem">
               <MappingFragment StoreEntitySet="TCheckAbleItems">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="IsVertical" ColumnName="IsVertical" />
-                <ScalarProperty Name="DisplayOrder" ColumnName="DisplayOrder" />
                 <ScalarProperty Name="SurveyQuestionId" ColumnName="SurveyQuestionId" />
+                <ScalarProperty Name="DisplayOrder" ColumnName="DisplayOrder" />
+                <ScalarProperty Name="IsVertical" ColumnName="IsVertical" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TQuestionTypes">
             <EntityTypeMapping TypeName="SurveyDBModel.TQuestionType">
               <MappingFragment StoreEntitySet="TQuestionTypes">
-                <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TSurveyQuestions">
             <EntityTypeMapping TypeName="SurveyDBModel.TSurveyQuestion">
               <MappingFragment StoreEntitySet="TSurveyQuestions">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="QuestionTypeId" ColumnName="QuestionTypeId" />
-                <ScalarProperty Name="RegisterMoment" ColumnName="RegisterMoment" />
-                <ScalarProperty Name="DisplayOrder" ColumnName="DisplayOrder" />
-                <ScalarProperty Name="SurveyId" ColumnName="SurveyId" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="SurveyId" ColumnName="SurveyId" />
+                <ScalarProperty Name="DisplayOrder" ColumnName="DisplayOrder" />
+                <ScalarProperty Name="RegisterMoment" ColumnName="RegisterMoment" />
+                <ScalarProperty Name="QuestionTypeId" ColumnName="QuestionTypeId" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TSurveys">
             <EntityTypeMapping TypeName="SurveyDBModel.TSurvey">
               <MappingFragment StoreEntitySet="TSurveys">
-                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CoordinatorId" ColumnName="CoordinatorId" />
+                <ScalarProperty Name="LastChangeMoment" ColumnName="LastChangeMoment" />
+                <ScalarProperty Name="RegisterMoment" ColumnName="RegisterMoment" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TUsers">
+            <EntityTypeMapping TypeName="SurveyDBModel.TUser">
+              <MappingFragment StoreEntitySet="TUsers">
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="RegisterMoment" ColumnName="RegisterMoment" />
-                <ScalarProperty Name="LastChangeMoment" ColumnName="LastChangeMoment" />
-                <ScalarProperty Name="CoordinatorId" ColumnName="CoordinatorId" />
+                <ScalarProperty Name="HashedPassword" ColumnName="HashedPassword" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

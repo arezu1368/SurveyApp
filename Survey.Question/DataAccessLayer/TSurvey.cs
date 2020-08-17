@@ -29,5 +29,6 @@ namespace Survey.Question.DataAccessLayer
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TSurveyQuestion> TSurveyQuestions { get; set; }
+        public virtual TUser TUser { get; set; }
     }
 }

@@ -12,28 +12,25 @@ namespace Survey.Common.BusinessLayer.User
     [DisplayName("کاربر")]
     public class User : DomainEntity<CommonEntities, TUser>
     {
-        public User(CommonEntities context, IEntity entity = null, string entityPropName = null)
+        public User(CommonEntities context, IEntity entity = null)
             : base(context, entity ?? new TUser())
         {
         }
 
-        #region Factory Methods
         static internal User Make(CommonEntities context)
         {
             return new User(context, null);
         }
 
-        static internal User Make(CommonEntities context, IEntity entity, String entityProp = null)
+        static internal User Make(CommonEntities context, IEntity entity)
         {
             if (entity == null)
                 return null;
-            var obj = new User(context, entity, entityProp);
+            var obj = new User(context, entity);
             if (obj.Entity == null)
                 return null;
             return obj;
         }
-
-        #endregion
         [DisplayName("نام کاربری")]
         public String Username
         {
@@ -100,15 +97,6 @@ namespace Survey.Common.BusinessLayer.User
             if (this.Save(ref errors))
             {
                 return true;
-            }
-            return false;
-        }
-
-        public Boolean CheckPassword(String pass)
-        {
-            if (this.FillFromContext())
-            {
-                return CryptSharp.PhpassCrypter.CheckPassword(pass, this.Entity.HashedPassword);
             }
             return false;
         }

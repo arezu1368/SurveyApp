@@ -26,9 +26,5 @@ namespace Survey.Common.DataAccessLayer
         }
     
         public virtual DbSet<TUser> TUsers { get; set; }
-        public virtual DbSet<TCheckAbleItem> TCheckAbleItems { get; set; }
-        public virtual DbSet<TQuestionType> TQuestionTypes { get; set; }
-        public virtual DbSet<TSurveyQuestion> TSurveyQuestions { get; set; }
-        public virtual DbSet<TSurvey> TSurveys { get; set; }
     }
 }

@@ -7,29 +7,28 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Survey.Common.DataAccessLayer
+namespace Survey.Question.DataAccessLayer
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class TSurveyQuestion
+    public partial class TUser
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public TSurveyQuestion()
+        public TUser()
         {
-            this.TCheckAbleItems = new HashSet<TCheckAbleItem>();
+            this.TSurveys = new HashSet<TSurvey>();
         }
     
         public int Id { get; set; }
-        public string Title { get; set; }
-        public int QuestionTypeId { get; set; }
+        public string UserName { get; set; }
+        public string Email { get; set; }
+        public string FullName { get; set; }
+        public string HashedPassword { get; set; }
         public System.DateTime RegisterMoment { get; set; }
-        public int DisplayOrder { get; set; }
-        public int SurveyId { get; set; }
         public bool IsActive { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TCheckAbleItem> TCheckAbleItems { get; set; }
-        public virtual TSurvey TSurvey { get; set; }
+        public virtual ICollection<TSurvey> TSurveys { get; set; }
     }
 }

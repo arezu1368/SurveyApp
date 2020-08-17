@@ -13,4 +13,10 @@ namespace Survey.Common.BusinessLayer.Enums
         Updated,
         Deleted,
     }
+    public enum FetchMethod : byte
+    {
+        None = 0,
+        Newest = 1,
+        Oldest = 2
+    }
 }

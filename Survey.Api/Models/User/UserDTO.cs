@@ -7,18 +7,18 @@ using Survey.Common.BusinessLayer.User;
 
 namespace Survey.Api.Models.User
 {
-    public class UserDTO:BaseDTO<Survey.Common.BusinessLayer.User.User>
+    public class UserDTO:BaseDTO<Common.BusinessLayer.User.User>
     {
         public string UserName { get; set; }
         public string Password { get; set; }
         public string Fullname { get; set; }
         public string Email { get; set; }
-        public UserDTO(Survey.Common.BusinessLayer.User.User domainEntity = null) 
+        public UserDTO(Common.BusinessLayer.User.User domainEntity = null) 
             : base(domainEntity)
         {
         }
 
-        public override bool FillFromDomainEntity(Survey.Common.BusinessLayer.User.User domainEntity)
+        public override bool FillFromDomainEntity(Common.BusinessLayer.User.User domainEntity)
         {
             if (!base.FillFromDomainEntity(domainEntity))
                 return false;
@@ -28,7 +28,7 @@ namespace Survey.Api.Models.User
             return true;
         }
 
-        public override Survey.Common.BusinessLayer.User.User MakeFilledDomainEntity()
+        public override Common.BusinessLayer.User.User MakeFilledDomainEntity()
         {
             UserManager userManager = new UserManager();
             var user = userManager.MakeUserInstance();

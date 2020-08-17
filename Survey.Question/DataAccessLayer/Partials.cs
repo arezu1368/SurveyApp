@@ -11,4 +11,8 @@ namespace Survey.Question.DataAccessLayer
     {
 
     }
+    public partial class TSurveyQuestion : IEntity
+    {
+
+    }
 }

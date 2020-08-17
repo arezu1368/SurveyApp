@@ -51,6 +51,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BusinessLayer\Survey.cs" />
+    <Compile Include="BusinessLayer\SurveyManager.cs" />
+    <Compile Include="BusinessLayer\SurveyQuestion.cs" />
     <Compile Include="DataAccessLayer\Partials.cs" />
     <Compile Include="DataAccessLayer\SurveyQuestionModel.Context.cs">
       <AutoGen>True</AutoGen>
@@ -79,11 +82,12 @@
     <Compile Include="DataAccessLayer\TSurveyQuestion.cs">
       <DependentUpon>SurveyQuestionModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DataAccessLayer\TUser.cs">
+      <DependentUpon>SurveyQuestionModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="BusinessLayer\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <EntityDeploy Include="DataAccessLayer\SurveyQuestionModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>

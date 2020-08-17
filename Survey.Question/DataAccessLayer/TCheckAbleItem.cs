@@ -20,6 +20,6 @@ namespace Survey.Question.DataAccessLayer
         public byte DisplayOrder { get; set; }
         public int SurveyQuestionId { get; set; }
     
-        public virtual TSurveyQuestion TSurveyQuestion { get; set; }
+        public virtual TQuestionType TQuestionType { get; set; }
     }
 }

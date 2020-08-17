@@ -5,12 +5,15 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="ddccf25c1e084201806b2d1dcef353ef" Name="Diagram1">
-        <EntityTypeShape EntityType="SurveyDBModel.TCheckAbleItem" Width="1.5" PointX="5.25" PointY="1.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="SurveyDBModel.TQuestionType" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="SurveyDBModel.TSurveyQuestion" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="SurveyDBModel.TSurvey" Width="1.5" PointX="0.75" PointY="1.125" IsExpanded="true" />
-        <AssociationConnector Association="SurveyDBModel.FK_TCheckedItems_TSurveyQuestions" ManuallyRouted="false" />
-        <AssociationConnector Association="SurveyDBModel.FK_TSurveyQuestions_TSurveys" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="SurveyDBModel.TCheckAbleItem" Width="1.5" PointX="5.25" PointY="5.25" />
+        <EntityTypeShape EntityType="SurveyDBModel.TQuestionType" Width="1.5" PointX="3" PointY="5.5" />
+        <EntityTypeShape EntityType="SurveyDBModel.TSurveyQuestion" Width="1.5" PointX="5.25" PointY="1" />
+        <EntityTypeShape EntityType="SurveyDBModel.TSurvey" Width="1.5" PointX="3" PointY="1" />
+        <EntityTypeShape EntityType="SurveyDBModel.TUser" Width="1.5" PointX="0.75" PointY="1" />
+        <AssociationConnector Association="SurveyDBModel.FK_TCheckedItems_TSurveyQuestions" />
+        <AssociationConnector Association="SurveyDBModel.FK_TSurveyQuestions_TSurveys" />
+        <AssociationConnector Association="SurveyDBModel.FK_TSurveyQuestions_TSurveys1" />
+        <AssociationConnector Association="SurveyDBModel.FK_TSurveys_TUsers" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

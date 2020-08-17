@@ -159,18 +159,6 @@
     </Compile>
     <Compile Include="DataAccessLayer\IEntity.cs" />
     <Compile Include="DataAccessLayer\Partials.cs" />
-    <Compile Include="DataAccessLayer\TCheckAbleItem.cs">
-      <DependentUpon>CommonModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DataAccessLayer\TQuestionType.cs">
-      <DependentUpon>CommonModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DataAccessLayer\TSurvey.cs">
-      <DependentUpon>CommonModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DataAccessLayer\TSurveyQuestion.cs">
-      <DependentUpon>CommonModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="DataAccessLayer\TUser.cs">
       <DependentUpon>CommonModel.tt</DependentUpon>
     </Compile>

@@ -14,12 +14,6 @@ namespace Survey.Common.DataAccessLayer
     
     public partial class TUser
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public TUser()
-        {
-            this.TSurveys = new HashSet<TSurvey>();
-        }
-    
         public int Id { get; set; }
         public string UserName { get; set; }
         public string Email { get; set; }
@@ -27,8 +21,5 @@ namespace Survey.Common.DataAccessLayer
         public string HashedPassword { get; set; }
         public System.DateTime RegisterMoment { get; set; }
         public bool IsActive { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TSurvey> TSurveys { get; set; }
     }
 }
