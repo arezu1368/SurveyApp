@@ -17,6 +17,7 @@ namespace Survey.Api.Controllers
         [Route("register")]
         public ResponseMessageResult Register([FromBody]UserDTO userInfo)
         {
+            string cd = "";
             List<ServerError> errors = new List<ServerError>();
             UserManager userManager = new UserManager();
             UserDTO userDTO = userInfo;
